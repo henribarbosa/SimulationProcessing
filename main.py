@@ -1,5 +1,6 @@
 from src.read_files import time_step_data, simulation_data
 from src.bed_points_array import points_array
+from src.eulerian_averages import eulerian_average
 
 def main():
     print("Welcome to the processing tool")
@@ -7,9 +8,11 @@ def main():
                            max_number_files=10)
 
     Data.build_time_series("types")
-    Data.print_data()
+    # Data.print_data()
     
     Points = points_array(0.0015, 0.1)
-    Points.plot_grid()
+    # Points.plot_grid()
+
+    AVG = eulerian_average(Data, points=Points)    
 
 main()
