@@ -81,6 +81,8 @@ class simulation_data:
             step_data = time_step_data(file)
             for property in property_list:
                 self.__dict__[property].append(step_data.__dict__[property])
+
+        return self
             
     # used to assemble a time series of a single variable
     def build_time_series(self, variable_choice):
@@ -89,6 +91,8 @@ class simulation_data:
 
         self.time_series = np.array(self.time_series_vector)
 
+        return self
+
     # used to assemble a time series for a single particle
     def build_time_series_per_particle(self, variable_choice, particle):
         self.assemble_vectors()
@@ -96,6 +100,8 @@ class simulation_data:
             self.time_series_vector.append(data[particle])
 
         self.time_series = np.array(self.time_series_vector)
+
+        return self
 
     # return the time series
     def get_data(self):

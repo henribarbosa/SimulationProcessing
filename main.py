@@ -14,5 +14,8 @@ def main():
     # Points.plot_grid()
 
     AVG = eulerian_average(Data, points=Points)    
+    AVG.make_vector_average("velocities")
+    print(AVG.average_vector)
+    AVG.save_vector_file()
 
 main()
