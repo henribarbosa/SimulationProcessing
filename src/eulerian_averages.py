@@ -1,6 +1,7 @@
 import numpy as np
 from src.bed_points_array import points_array
 from src.read_files import time_step_data, simulation_data
+from src.utils import clear_file
 
 # Volume of sphere intersection
 def sphere_intersection(d, R, r):
@@ -74,9 +75,7 @@ class eulerian_average:
                 self.average_vector = self.average_vector + np.outer(volume, data[timeDataIndex][particleIndex])
 
     def save_scalar_file(self):
-        f = open("Files/"+self.avg_quantity+".txt", "w")
-        f.write("")
-        f.close()
+        clear_file("Files/"+self.avg_quantity+".txt")
 
         f = open("Files/"+self.avg_quantity+".txt", "a")
         f.write("{:d}\n".format(self.times))
@@ -87,9 +86,7 @@ class eulerian_average:
         f.close()
 
     def save_vector_file(self):
-        f = open("Files/"+self.avg_quantity+".txt", "w")
-        f.write("")
-        f.close()
+        clear_file("Files/"+self.avg_quantity+".txt")
 
         f = open("Files/"+self.avg_quantity+".txt", "a")
         f.write("{:d}\n".format(self.times))

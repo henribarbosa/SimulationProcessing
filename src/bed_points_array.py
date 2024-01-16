@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from src.utils import clear_file
 
 class points_array:
     # array of points for a tube of radius r and height h
@@ -34,6 +35,17 @@ class points_array:
         ax = fig.add_subplot(projection='3d')
         ax.scatter(self.points_x, self.points_y, self.points_z)
         plt.show()
+
+    def write_grid(self):
+        clear_file("Files/grid_coordinates.txt")
+
+        f = open("Files/grid_coordinates.txt", "w")
+        f.write("{:d}".format(self.n_total))
+        for i in range(self.n_total):
+            f.write("{:.5f}   {:.5f}   {:.5f}".format(self.points_x[i],
+                                                      self.points_y[i],
+                                                      self.points_z[i]))
+        f.close()
 
 
 
