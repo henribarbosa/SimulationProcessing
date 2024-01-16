@@ -29,6 +29,9 @@ class eulerian_average:
         self.average_scalar = np.zeros([self.times, points.n_total])
         self.average_vector = np.zeros([self.times, points.n_total, 3])
 
+    def change_radius(self, new_radius):
+        self.radius = new_radius
+        return self
 
     def make_scalar_average(self, property):
         print("Making Eulerian average...")
