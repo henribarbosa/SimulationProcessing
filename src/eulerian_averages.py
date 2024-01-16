@@ -52,6 +52,10 @@ class eulerian_average:
                 self.particle_volume = self.particle_volume + volume
                 self.average_scalar = self.average_scalar + volume * data[timeDataIndex][particleIndex]
 
+        self.average_scalar = np.divide(self.average_scalar, self.particle_volume)
+
+        return self
+
     def make_vector_average(self, property):
         print("Making Eulerian average...")
 
@@ -74,7 +78,12 @@ class eulerian_average:
                 self.particle_volume = self.particle_volume + volume
                 self.average_vector = self.average_vector + np.outer(volume, data[timeDataIndex][particleIndex])
 
+        self.average_vector = np.divide(self.average_vector, np.array([self.particle_volume, self.particle_volume, self.particle_volume]).transpose((1,2,0)))
+
+        return self
+
     def save_scalar_file(self):
+        print("Saving eulerian file...")
         clear_file("Files/"+self.avg_quantity+".txt")
 
         f = open("Files/"+self.avg_quantity+".txt", "a")
@@ -85,7 +94,10 @@ class eulerian_average:
                 f.write("{:.5f}\n".format(point))
         f.close()
 
+        return self
+
     def save_vector_file(self):
+        print("Saving eulerian file...")
         clear_file("Files/"+self.avg_quantity+".txt")
 
         f = open("Files/"+self.avg_quantity+".txt", "a")
@@ -96,5 +108,12 @@ class eulerian_average:
                 f.write("{:.5f}   {:.5f}   {:.5f}\n".format(point[0], point[1], point[2]))
         f.close()
 
+        return self
+
+    def get_scalar_data(self):
+        return self.average_scalar
+
+    def get_vector_data(self):
+        return self.average_vector
 
 
