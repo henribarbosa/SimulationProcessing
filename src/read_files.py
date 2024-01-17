@@ -54,11 +54,11 @@ class time_step_data:
         self.densities = np.array(self.densities, dtype='uint')
         
 class simulation_data:
-    def __init__(self,folder_path, max_number_files=0):
+    def __init__(self,folder_path, max_number_files=0, skip_step=1):
         # glob file list of frames
         self.files = glob(folder_path + "/dump_liggghts_run.*")
         if max_number_files != 0:
-            self.files = self.files[:max_number_files]
+            self.files = self.files[0:max_number_files:skip_step]
 
         # store all data in vectors
         self.types = []

@@ -5,7 +5,7 @@ from src.utils import clear_file
 class points_array:
     # array of points for a tube of radius r and height h
     # with dr, dtheta and dz for the grid of points
-    def __init__(self, r, h, dr=0.0001, dtheta=0.1, dz=0.001):
+    def __init__(self, r, h, dr=0.0005, dtheta=0.1, dz=0.0001):
         
         # number of points in each direction
         self.n_r = int(r/dr)+1
@@ -47,5 +47,6 @@ class points_array:
                                                       self.points_z[i]))
         f.close()
 
-
+    def export_grid_to_plot(self):
+        return self.points_x, self.points_y, self.points_z
 
