@@ -1,5 +1,7 @@
 # Files folder
 Files/
+Frames/
+Videos/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
