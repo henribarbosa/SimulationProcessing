@@ -4,12 +4,37 @@ import seaborn as sns
 from src.read_files import simulation_data
 from src.eulerian_averages import eulerian_average
 
+# Functions from @Mateen Ulhaq and @karlo
+def set_axes_equal(ax: plt.Axes):
+    """Set 3D plot axes to equal scale.
+
+    Make axes of 3D plot have equal scale so that spheres appear as
+    spheres and cubes as cubes.  Required since `ax.axis('equal')`
+    and `ax.set_aspect('equal')` don't work on 3D.
+    """
+    limits = np.array([
+        ax.get_xlim3d(),
+        ax.get_ylim3d(),
+        ax.get_zlim3d(),
+    ])
+    origin = np.mean(limits, axis=1)
+    radius = 0.5 * np.max(np.abs(limits[:, 1] - limits[:, 0]))
+    _set_axes_radius(ax, origin, radius)
+
+def _set_axes_radius(ax, origin, radius):
+    x, y, z = origin
+    ax.set_xlim3d([x - radius, x + radius])
+    ax.set_ylim3d([y - radius, y + radius])
+    ax.set_zlim3d([z - radius, z + radius])
+
 def quiver_plot(ax, coordinates, data, index):
     x,y,z = coordinates.export_grid_to_plot()
     vectors = data[index].T
     u,v,w = vectors[0],vectors[1],vectors[2]
 
     ax.quiver(x,y,z,u,v,w, normalize=True, length=0.0005)
+    ax.set_box_aspect([1,1,1])
+    set_axes_equal(ax)
 
 def last_quiver_view(coordinates, data, index=-1):
     ax = plt.figure().add_subplot(projection='3d')
@@ -23,6 +48,8 @@ def scalar_plot(ax, coordinates, data, index):
     color = data[index]
 
     ax.scatter(x,y,z,c=color, alpha=0.5)
+    ax.set_box_aspect([1,1,1])
+    set_axes_equal(ax)
 
 def last_scalar_view(coordinates, data, index=-1):
     ax = plt.figure().add_subplot(projection='3d')
@@ -40,6 +67,8 @@ def particles_plot(ax, simulation_data, index):
 
     ax.quiver(x,y,z,u,v,w, normalize=True, length=0.0003)
     ax.scatter(x,y,z,c=np.sqrt(u**2+v**2+w**2), alpha=0.5)
+    ax.set_box_aspect([1,1,1])
+    set_axes_equal(ax)
 
     
 def view_particles(simulation_data, index=-1):
@@ -63,6 +92,9 @@ def view_average_areas(eulerian_data):
 
     for i in range(0,eulerian_data.number_points,100):
         ax.plot_surface(x[i] + x_sph, y[i] + y_sph, z[i] + z_sph, color='b')
+
+    ax.set_box_aspect([1,1,1])
+    set_axes_equal(ax)
 
     plt.show()
 
