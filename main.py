@@ -18,13 +18,13 @@ def main():
 
     AVG = eulerian_average(Data, points=Points)
     # AVG.make_vector_average("velocities")
-    # AVG.make_scalar_average("radius")
+    AVG.make_scalar_average("radius")
     # AVG.print_fields()
     # AVG.save_vector_file()
 
     # AVG.apply_scalar_function(granular_temperature)
     AVG.apply_scalar_function(packing_fraction)
-    # AVG.print_fields()
+    AVG.print_fields()
 
     # AVG.make_vector_average("velocities")
     # last_quiver_view(Points, AVG.get_vector_data())

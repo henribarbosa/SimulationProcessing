@@ -8,7 +8,7 @@ def sphere_intersection(d, R, r):
     inRange = np.logical_and(d > (R-r), d < (R+r))
     R = np.ones(d.shape)*R
     r = np.ones(d.shape)*r
-    volume = np.pi/(12*d)*(np.square(d) + 2*d*r - 3*np.square(r) + 2*d*R + 6*r*R - 3*np.square(R))*np.square((R + r - d))
+    volume = np.pi/12 * np.divide((np.square(d) + 2*d*r - 3*np.square(r) + 2*d*R + 6*r*R - 3*np.square(R))*np.square((R + r - d)), d, out=np.zeros_like(d), where=d!=0)
     return volume * inRange
 
 # Average the desired measument in the points of the bed
