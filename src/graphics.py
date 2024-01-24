@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from src.read_files import simulation_data
 from src.eulerian_averages import eulerian_average
+from src.surface import surface
 
 # Functions from @Mateen Ulhaq and @karlo
 def set_axes_equal(ax: plt.Axes):
@@ -75,6 +76,23 @@ def view_particles(simulation_data, index=-1):
     ax = plt.figure().add_subplot(projection='3d')
 
     particles_plot(ax, simulation_data, index)
+
+    plt.show()
+
+def surface_plot(ax, surface_data: surface, index):
+    coordinates = surface_data.positions[index].T
+    type = surface_data.particle_classification[index]
+
+    x,y,z = coordinates[0],coordinates[1],coordinates[2]
+
+    ax.scatter(x,y,z,c=type, alpha=0.7)
+    ax.set_box_aspect([1,1,1])
+    set_axes_equal(ax)
+
+def view_surface(surface_data: surface, index=-1):
+    ax = plt.figure().add_subplot(projection='3d')
+
+    surface_plot(ax, surface_data, index)
 
     plt.show()
 

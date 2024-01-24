@@ -2,13 +2,13 @@ from src.read_files import time_step_data, simulation_data
 from src.bed_points_array import points_array
 from src.eulerian_averages import eulerian_average
 from src.toolkit import granular_temperature, packing_fraction
-from src.graphics import last_quiver_view, last_scalar_view, view_particles, view_average_areas, save_frames_quiver, save_frames_particles
+from src.graphics import last_quiver_view, last_scalar_view, view_particles, view_average_areas, save_frames_quiver, save_frames_particles, view_surface
 from src.surface import surface
 
 def main():
     print("Welcome to the processing tool")
     Data = simulation_data("/media/dados0/Mestrado/Leito_Ar/Polydisperse_difelice/Mono_Velocidade_1.77_angle_0/DEM/post/",
-                           max_number_files=10, skip_step=1)
+                           max_number_files=1, skip_step=1)
     # Data = simulation_data("../files/", max_number_files=10)
 
     # Data.build_time_series("radius")
@@ -37,4 +37,6 @@ def main():
 
     superficie = surface(Data)
     superficie.check_surface()
+    # print(superficie.get_data())
+    view_surface(superficie, index=0)
 main()
