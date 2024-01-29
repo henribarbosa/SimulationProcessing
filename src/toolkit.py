@@ -1,5 +1,6 @@
 import numpy as np
 from src.eulerian_averages import eulerian_average, sphere_intersection
+from src.graphics import quiver_plot_eulerian
 
 def granular_temperature(eulerian_class: eulerian_average):
     eulerian_class.change_radius(5*eulerian_class.radius)
@@ -84,3 +85,34 @@ def cylinder_intersection(d, R, r):
     volume = (volume * inRange) + (np.logical_not(inRange) * (4/3 * np.pi * np.power(r,3*np.ones_like(r))) )
 
     return volume
+
+# Bed momentum
+def bed_moment(data: eulerian_average, start=2):
+    flux = volume_flux(data)
+
+    avgFlux = np.mean(flux[start:], axis=0)
+
+    quiver_plot_eulerian(data.points_coordinates, avgFlux)
+    z_center = float(input("Height of the center:"))
+
+    coordinates = data.points_coordinates.T
+    x,y,z = coordinates[0],coordinates[1],coordinates[2]
+    avgFlux = avgFlux.T
+    u,v,w = avgFlux[0],avgFlux[1],avgFlux[2]
+    
+    moment = (np.nansum(y*w - z*v) + z_center*np.nansum(v)) / len(data.particle_volume)
+
+    return moment
+
+def volume_flux(data: eulerian_average):
+    velocities = data.make_vector_average("velocities").get_vector_data()
+
+    flux = np.zeros_like(velocities)
+    for frame in range(velocities.shape[0]):
+        for point in range(velocities.shape[1]):
+            for direction in range(velocities.shape[2]):
+                flux[frame,point,direction] = (1/(np.pi*data.radius**2)) * data.particle_volume[point] * velocities[frame,point,direction]
+
+    return flux
+
+

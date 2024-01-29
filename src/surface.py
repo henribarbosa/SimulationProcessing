@@ -7,6 +7,7 @@ class surface:
         self.positions = data.build_time_series("positions").get_data()
         self.radius = data.build_time_series("radius").get_data()
         self.particle_classification = np.ones_like(data.types, dtype="uint8")
+        self.residence_fraction = np.zeros([len(data.types[0])]) # in the surface
 
     def check_surface(self):
         print("Finding the surface...")
@@ -52,6 +53,14 @@ class surface:
                 if blocked_top and blocked_side:
                     self.particle_classification[time][check_particle] = 0
 
+        return self
+
+    def residence_time(self):
+        total_time = self.particle_classification.shape[0]
+
+        self.residence_fraction = np.sum(self.particle_classification, axis=0)
+        self.residence_fraction = np.divide(self.residence_fraction, total_time*np.ones_like(self.residence_fraction))
+        
         return self
 
     def get_data(self):

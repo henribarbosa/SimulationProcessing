@@ -28,6 +28,20 @@ def _set_axes_radius(ax, origin, radius):
     ax.set_ylim3d([y - radius, y + radius])
     ax.set_zlim3d([z - radius, z + radius])
 
+def quiver_plot_eulerian(coordinates, data):
+    ax = plt.figure().add_subplot(projection='3d')
+
+    points = coordinates.T
+    x,y,z = points[0],points[1],points[2]
+    vectors = data.T
+    u,v,w = vectors[0],vectors[1],vectors[2]
+
+    ax.quiver(x,y,z,u,v,w, normalize=True, length=0.0015)
+    ax.set_box_aspect([1,1,1])
+    set_axes_equal(ax)
+
+    plt.show()   
+
 def quiver_plot(ax, coordinates, data, index):
     x,y,z = coordinates.export_grid_to_plot()
     vectors = data[index].T
